@@ -1,0 +1,27 @@
+:host {
+
+    h2 {
+        margin-left: 2rem;
+    }
+    button {
+        margin-left: .5rem;
+    }
+    .container {
+        h3{
+            margin-top: 0;
+        }
+
+        margin-bottom: 1rem;
+
+        .people-container{
+            p{
+                margin-left: .5rem;
+            }
+
+            >:nth-child(2){
+                margin-left: 1rem;
+              
+            }
+        }
+    }
+}

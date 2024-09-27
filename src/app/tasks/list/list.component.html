@@ -1,0 +1,24 @@
+
+<div class="menu">
+    <a routerLink="/tasks/create">Crear Tarea </a>
+    <button (click)="filter(taskFilterEnum.ALL)">Ver Todas</button>
+    <button (click)="filter(taskFilterEnum.PENDING)">Ver Pendientes</button>
+    <button (click)="filter(taskFilterEnum.COMPLETED)">Ver Completas</button>
+</div>
+<h2>Lista de Tareas</h2>
+
+<div class='container' *ngFor="let task of taskList$ | async; let  i = index; trackBy:trackByTask">
+    <h3>{{i +1}}. <input type="checkbox" [id]="task.id" [checked]="task.completed" (change)="update(task.id)" > {{task.title}} {{task?.limitDate?.toLocaleDateString() }}</h3>
+    <ng-container *ngIf="task.people">
+        <h3>Personas Asociadas</h3>
+        <div *ngFor="let person of task.people" class="people-container">
+            <p> - {{person.name}} ({{person.age}})</p>
+            <p>
+                <b>Habilidades:</b>
+                <span *ngFor="let skill of person.skills; let  m = index;">
+                    {{skill.name}}<ng-container *ngIf="m<person.skills.length -1">,</ng-container>
+                </span>
+            </p>
+        </div>
+    </ng-container>
+</div>

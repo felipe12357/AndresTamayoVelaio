@@ -1,0 +1,73 @@
+<div class="menu"><a routerLink="/tasks">ver tareas </a></div>
+
+<div class="container">
+    <h2>Crear Tarea</h2>
+    <hr>
+    <form [formGroup]="taskForm" >
+        <div>
+            <label for="task_name"> Nombre de la tarea</label>
+            <input type="text" formControlName="title" name="task_name" id="task_name" >
+            <app-form-validation  [hasbeenSubmitted]="hasbeenSubmitted"
+                [formControlTocheck]="taskForm.get('title')" [validationToCheck]="'required'" [outputMessage]="'Campo Requerido'">
+            </app-form-validation>
+        </div>
+        <div>
+            <label for="limit_date"> Fecha Limite</label>
+            <input type="date" formControlName="limitDate" name="limit_date" id="limit_date" >
+            <app-form-validation  [hasbeenSubmitted]="hasbeenSubmitted"
+                [formControlTocheck]="taskForm.get('limitDate')" [validationToCheck]="'required'" [outputMessage]="'Campo Requerido'">
+            </app-form-validation>
+        </div>
+        <div class="people-container" formArrayName="people">
+            <h3>Personas Asociadas:</h3>
+            <ng-container *ngFor="let person of peopleForm.controls ; let i=index" [formGroupName]="i">
+                <div>
+                    <label [for]="'person_name_'+i"> Nombre Completo</label>
+                    <input type="text" formControlName="name" [name]="'person_name_'+i" [id]="'person_name_'+i">
+                    <app-form-validation [outputMessage]="'Campo Requerido'" [formControlTocheck]="person.get('name')" 
+                        [validationToCheck]="'required'"  [hasbeenSubmitted]="hasbeenSubmitted" >
+                    </app-form-validation>
+                    <app-form-validation [outputMessage]="'texto es muy corto'" [formControlTocheck]="person.get('name')" 
+                        [validationToCheck]="'minlength'"  [hasbeenSubmitted]="hasbeenSubmitted" >
+                    </app-form-validation>
+                </div>
+                <div>
+                    <label [for]="'person_age_'+i">Edad</label>
+                    <input type="number" formControlName="age" [name]="'person_age_'+i" [id]="'person_age_'+i">
+                    <app-form-validation [outputMessage]="'Campo Requerido'" [formControlTocheck]="person.get('age')" 
+                        [validationToCheck]="'required'"  [hasbeenSubmitted]="hasbeenSubmitted">
+                    </app-form-validation>
+                    <app-form-validation [outputMessage]="'la persona debe ser mayor de 18'" [formControlTocheck]="person.get('age')" 
+                        [validationToCheck]="'min'"  [hasbeenSubmitted]="hasbeenSubmitted">
+                    </app-form-validation>
+                </div>
+                <h4>Habilidades:</h4>
+                <div class="skills-container" formArrayName="skills">
+                    <div *ngFor="let skill of getSkillForm(i).controls; let m=index" [formGroupName]="m">
+                        <input type="text" formControlName="name" [name]="'person_skill_'+i+m" [id]="'person_skill_'+i+m">
+                        <button *ngIf="getSkillForm(i).controls.length>1" (click)="deleteSkill(i,m)">Eliminar</button>
+                        <app-form-validation [outputMessage]="'Campo Requerido'" [formControlTocheck]="skill.get('name')" 
+                            [validationToCheck]="'required'" [hasbeenSubmitted]="hasbeenSubmitted">
+                        </app-form-validation>
+                    </div>
+                </div>
+                <button (click)="addSkill(i)">Agregar Habilidad</button>
+                <button *ngIf="peopleForm.controls.length>1" (click)="deletePerson(i)">Eliminar Persona</button>
+                <hr>
+            </ng-container>
+            
+            <app-form-validation 
+                [formControlTocheck]="taskForm.get('people')" [validationToCheck]="'hasDuplicate'" [hasbeenSubmitted]="hasbeenSubmitted"
+                [outputMessage]="'No pueden existir personas con el mismo nombre'">
+            </app-form-validation>
+            <div>
+                <button (click)="addPerson()">Agregar Persona</button>
+            </div>
+        </div>
+        <div class="save-container">
+            <button (click)="saveTask()"
+            [ngClass]="{'btn-disabled':taskForm.status === 'INVALID' }" 
+                [disabled]="taskForm.status === 'INVALID'">Guardar</button>
+        </div>
+    </form>
+</div>

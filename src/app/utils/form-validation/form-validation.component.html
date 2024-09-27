@@ -1,0 +1,7 @@
+<ng-container class="alert" *ngIf="hasbeenSubmitted ||
+        (formControlTocheck?.invalid && (formControlTocheck?.dirty || formControlTocheck?.touched)) ">
+    <div *ngIf="formControlTocheck?.errors?.[validationToCheck]">
+       {{outputMessage}}
+    </div>   
+</ng-container>
+
