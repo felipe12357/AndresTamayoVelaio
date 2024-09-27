@@ -35,7 +35,6 @@ html {
    .menu{
         margin-bottom: 2rem;
         margin-top: 2rem;
-        margin-left: 2rem;
         display: flex;
         justify-content: left;
     }
@@ -45,13 +44,17 @@ html {
         border-radius: 7px;
         padding:1rem;
         background-color:$color-grey-light;
-        width: 90%;
+        width: 87%;
         margin: 0 auto;
     }
 
     @media (min-width: 768px) {
         .container {
            width:60%;
+        }
+
+        .menu {
+            margin-left: 2rem;
         }
     }
 }
